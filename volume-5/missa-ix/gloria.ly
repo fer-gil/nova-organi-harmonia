@@ -1,6 +1,6 @@
-\version  "2.18.0"
+\version "2.24.0"
 \language "english"
-\include "../../noh.ily"
+\include "noh.ily"
 
 global = {
   \key g \major
@@ -36,7 +36,8 @@ chantText = \lyricmode {
 }
 
 chantMusic = \relative c' {
-  %1
+  %1 
+  \stemDown
   \gb d e d \ga c d d4 d \ga e fs
   g16( \once \teeny fs16*3) \ga e d \gb b c d d4 \doubleBar
 

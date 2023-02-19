@@ -1,6 +1,6 @@
-\version  "2.18.0"
+\version "2.24.0"
 \language "english"
-\include "../../noh.ily"
+\include "noh.ily"
 
 global = {
   \key d \major
@@ -22,7 +22,7 @@ chantText = \lyricmode {
 
 chantMusic = \relative c' {
   %1
-  a'16( a \tieDown fs4)~ \ga fs d \gb e fs e d4 \quarterBar
+  \stemDown a'16( a \tieDown fs4)~ \ga fs d \gb e fs e d4 \quarterBar
   \gb fs fs e d4 \quarterBar
   \ga d fs \ga a a \gc d cs b cs \ga b a \quarterBar \forceBreak
   d4 cs \ga b cs \gb d cs b a4 \ga fs d \gc g fs e fs \ga e d d4 \singleBar
@@ -48,24 +48,24 @@ chantMusic = \relative c' {
 altoMusic = \relative c' {
   %1
   d2*1/4~
-  d2 -\tweak Glissando.Y-offset #-1.2 \glissando e4*3/2
+  d2 -\tweak Glissando.Y-extent #6.2 \glissando e4*3/2
   s4
   cs2*3/4 -\tweak Glissando.Y-offset #-0.5 \glissando d4~
   d2*1/2 e fs2*1/4~ fs2*1/2~ fs
-  a2 g2*1/2 fs2*5/4 d2*1/2~ d2*3/4 a2*1/2~ a4
+  a2 g2*1/2 fs2*5/4 \once \override NoteColumn.force-hshift = -0.2 d2*1/2~ d2*3/4 a2*1/2~ a4
 
   %2
-  s4 d2~ d2*3/2
+  s4 d2~ \shiftRight d2*3/2
   fs2*1/4 e2*3/2
   d2~ d2*1/2~
-  d2*3/4 -\tweak Glissando.Y-offset #-0.8 \glissando e4
+  d2*3/4 -\tweak Glissando.Y-offset #-0.8	 \glissando e4
 
   %3
-  s4 e2*3/4~ e2*1/2 d2 a2*3/4~ a2*1/2
+  s4 e2*3/4~ e2*1/2 d2 \once \override NoteColumn.force-hshift = -0.05 a2*3/4~ a2*1/2
 
   %4
   fs'2*5/4~ fs2*3/2~ fs2*5/4~
-  fs4 g2*5/4 fs2 d2*1/2~ d2*1/4~ d2*1/2
+  fs4 g2*5/4 fs2 d2*1/2~ d2*1/4~ \shiftRight d2*1/2
   b2
 
   %5
@@ -101,7 +101,7 @@ bassMusic = \relative c {
   d2*1/4~ d2~  d2*3/4~ d4
   a2*3/4 b4~
   b2*1/2 cs2*1/2 d2*1/4~ d2*1/2 fs2*1/2~
-  fs2 e2*1/2 b'2*5/4 a2*1/2 g2*3/4 d2*1/2 d4
+  fs2 e2*1/2 b'2*5/4 \once \override NoteColumn.force-hshift = 0.2 a2*1/2 g2*3/4 d2*1/2 d4
 
   %2
   b4~ b2~ b2*3/2 d2*1/4 cs2*3/2
@@ -128,8 +128,8 @@ voiceLines = \relative c' {
   \voiceLine "down" "down" g,2*3/4 g2*1/2
 
   %3
-  s2*9 s4 s8
-  \voiceLine "down" "up" a2 a2*3/4
+  s2*9 s4 s8 
+   \voiceLine "down" "up" a2 \once \override NoteColumn.force-hshift = 0 a2*3/4
 
   %5
   s2*16
@@ -149,7 +149,7 @@ voiceLinesDown = \relative c' {
     \set GrandStaff.instrumentName = "V."
 
     \new Staff = up <<
-      \new Voice = "chant" {
+      \new Voice = "chant" \with {\consists Episema_engraver \remove Beam_engraver} {
         \voiceOne \global \chantMusic
       }
       \new Voice {
@@ -159,16 +159,16 @@ voiceLinesDown = \relative c' {
 
     \new Staff = down <<
       \clef bass
-      \new Voice {
+      \new Voice \with {\remove Beam_engraver } {
         \voiceOne \global \tenorMusic
       }
-      \new Voice {
+      \new Voice \with {\remove Beam_engraver } {
         \voiceTwo \global \bassMusic
       }
-      \new Voice {
+      \new Voice \with {\remove Beam_engraver } {
         \voiceThree \global \voiceLines
       }
-      \new Voice {
+      \new Voice \with {\remove Beam_engraver } {
         \voiceFour \global \voiceLinesDown
       }
     >>

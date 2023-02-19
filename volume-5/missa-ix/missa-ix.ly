@@ -1,18 +1,24 @@
-\version  "2.18.0"
+\version "2.24.0"
 \language "english"
-\include "../../noh.ily"
+\include "FerGilSource.ily"
+\include "noh.ily"
 
 \paper {
+  #(set-paper-size "letter")
+top-margin = 2\cm
+left-margin = 2.5\cm
+right-margin = 2.5\cm
+bottom-margin = 2.5\cm
   oddHeaderMarkup = \markup \fill-line {
     \line {}
     \center-column {
-      \on-the-fly #first-page     " "
-      \on-the-fly #not-first-page "IX. IN FESTIS B. M. V. 1."
+      \if \on-first-page     " "
+      \unless \on-first-page "IX. IN FESTIS B. M. V. 1."
     }
-    \line { \on-the-fly #print-page-number-check-first \fromproperty #'page:page-number-string }
+    \line { \if \should-print-page-number \fromproperty #'page:page-number-string }
   }
   evenHeaderMarkup = \markup \fill-line {
-    \line { \on-the-fly #print-page-number-check-first \fromproperty #'page:page-number-string }
+    \line { \if \should-print-page-number \fromproperty #'page:page-number-string }
     \center-column { "IX. IN FESTIS B. M. V. 1." }
     \line {}
   }
